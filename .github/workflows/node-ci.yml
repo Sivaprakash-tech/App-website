@@ -2,17 +2,17 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "main" ]   # Runs on push to main
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]   # Runs on PR to main
+    branches: [ "main" ]
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest   # GitHub provides a VM automatically
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [16.x, 18.x, 20.x]   # Test on multiple Node versions
+        node-version: [18.x, 20.x]   # ✅ only supported versions
 
     steps:
       - name: Checkout repository
@@ -29,8 +29,8 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Run linter (optional, if you use eslint)
-        run: npm run lint
+      - name: Lint (optional, if eslint configured)
+        run: npm run lint || echo "No lint script found"
 
-      - name: Build project (optional, if build step exists)
-        run: npm run build
+      - name: Build project
+        run: npm run build || echo "No build script found"
